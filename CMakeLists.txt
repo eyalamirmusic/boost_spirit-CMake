@@ -7,13 +7,12 @@ include(FetchContent)
 
 FetchContent_Declare(spirit
         GIT_REPOSITORY https://github.com/boostorg/spirit.git
-        GIT_TAG        develop)
-        FetchContent_MakeAvailable(spirit)
+        GIT_TAG develop)
+FetchContent_MakeAvailable(spirit)
 
 FetchContent_MakeAvailable(spirit)
 
 find_package(Boost REQUIRED)
-
 
 
 function(add_lex_example name)
@@ -38,3 +37,5 @@ add_lex_example(example5)
 
 add_lex_example(strip_comments)
 add_lex_example(word_count)
+
+add_subdirectory(Example)

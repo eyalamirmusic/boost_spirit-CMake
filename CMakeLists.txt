@@ -14,23 +14,27 @@ FetchContent_MakeAvailable(spirit)
 
 find_package(Boost REQUIRED)
 
-function(add_example dir name)
 
-    set(exampleDir ${spirit_SOURCE_DIR}/example)
-    add_executable(${name} ${exampleDir}/${dir}/${name}.cpp)
-    target_include_directories(${name} PRIVATE ${spirit_SOURCE_DIR}/include ${Boost_INCLUDE_DIR})
+
+function(add_lex_example name)
+    set(exampleDir ${spirit_SOURCE_DIR}/example/lex)
+    add_executable(${name} ${exampleDir}/${name}.cpp)
+
+    target_include_directories(${name} PRIVATE
+            ${spirit_SOURCE_DIR}/include
+            ${Boost_INCLUDE_DIR})
 
     add_custom_command(TARGET ${name}
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy
-            ${exampleDir}/${dir}/${name}.input
+            ${exampleDir}/${name}.input
             ${CMAKE_CURRENT_BINARY_DIR}/${name}.input)
 endfunction()
 
-add_example(lex example1)
-add_example(lex example2)
-add_example(lex example3)
-add_example(lex example5)
+add_lex_example(example1)
+add_lex_example(example2)
+add_lex_example(example3)
+add_lex_example(example5)
 
-add_example(lex strip_comments)
-add_example(lex word_count)
+add_lex_example(strip_comments)
+add_lex_example(word_count)

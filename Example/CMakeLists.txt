@@ -10,4 +10,4 @@ add_custom_command(TARGET MyExample
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         ${exampleDir}/example5.input
-        ${CMAKE_CURRENT_BINARY_DIR}/${name}.input)
+        ${CMAKE_CURRENT_BINARY_DIR}/example5.input)

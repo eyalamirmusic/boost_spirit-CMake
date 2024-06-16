@@ -108,12 +108,9 @@ struct example5_grammar : example5_base_grammar<Iterator, Lexer>
 
 int main()
 {
-    typedef std::string::iterator base_iterator_type;
-
-    using token_type =
-        lex::lexertl::token<base_iterator_type,
-                            boost::mpl::vector<unsigned int, std::string>>;
-
+    using VectorType = boost::mpl::vector<unsigned int, std::string>;
+    using base_iterator_type = std::string::iterator;
+    using token_type = lex::lexertl::token<base_iterator_type, VectorType>;
     using lexer_type = lex::lexertl::lexer<token_type>;
     using example5_tokens = example5_tokens<lexer_type>;
     using iterator_type = example5_tokens::iterator_type;
@@ -121,18 +118,17 @@ int main()
     using example5_grammar =
         example5_grammar<iterator_type, example5_tokens::lexer_def>;
 
+    auto tokens = example5_tokens();
+    auto calc = example5_grammar(tokens);
 
-    example5_tokens tokens;
-    example5_grammar calc(tokens);
+    auto str = read_from_file("example5.input");
 
-    std::string str(read_from_file("example5.input"));
+    auto it = str.begin();
+    auto iter = tokens.begin(it, str.end());
+    auto end = tokens.end();
 
-    std::string::iterator it = str.begin();
-    iterator_type iter = tokens.begin(it, str.end());
-    iterator_type end = tokens.end();
-
-    std::string ws("WS");
-    bool r = qi::phrase_parse(iter, end, calc, qi::in_state(ws)[tokens.self]);
+    auto ws = std::string("WS");
+    auto r = qi::phrase_parse(iter, end, calc, qi::in_state(ws)[tokens.self]);
 
     if (r && iter == end)
     {
